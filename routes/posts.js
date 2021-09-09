@@ -38,10 +38,17 @@ router.get('/edit/:id', async (req, res) => {
     const post = await Post.findOne({_id: req.params.id}).lean();
     res.render('posts/edit', {post})
 })
+
 // update post
 router.put('/:id', async (req, res) => {
     const {title, text} = req.body;
     await Post.findOneAndUpdate({_id: req.params.id}, {title, text})
+    res.redirect('/posts');
+})
+
+// delete post
+router.delete('/:id', async (req, res) => {
+    await Post.findOneAndRemove("_id: req.params.id")
     res.redirect('/posts');
 })
 
