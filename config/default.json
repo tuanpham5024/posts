@@ -1,0 +1,4 @@
+{
+    "mongoURI": "mongodb+srv://tuanpham:tuan1999@posts.1h4bl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    "PORT": 3000
+}
