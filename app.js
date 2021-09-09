@@ -2,6 +2,7 @@ const config = require('config');
 const express = require('express');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
+const methodOverride = require('method-override');
 const connectDB = require('./config/db');
 
 // routes
@@ -18,6 +19,9 @@ app.set('view engine', 'handlebars')
 // start bodyParser middleware
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
+
+// start methodOverride middleware
+app.use(methodOverride('_method'));
 
 // start express middleware
 app.use(express.json());

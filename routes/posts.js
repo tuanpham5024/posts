@@ -4,6 +4,11 @@ const router = express.Router();
 // Load model
 const Post = require('../models/Post');
 
+// show all post
+router.get('/', async (req, res) => {
+    const posts = await Post.find().lean().sort({data: -1});
+    res.render('posts/index', {posts: posts})
+})
 
 // show post creation form
 router.get('/add', (req, res) => {
@@ -28,5 +33,16 @@ router.post('/', async (req, res) => {
     }
 })
 
+// show post edit form
+router.get('/edit/:id', async (req, res) => {
+    const post = await Post.findOne({_id: req.params.id}).lean();
+    res.render('posts/edit', {post})
+})
+// update post
+router.put('/:id', async (req, res) => {
+    const {title, text} = req.body;
+    await Post.findOneAndUpdate({_id: req.params.id}, {title, text})
+    res.redirect('/posts');
+})
 
 module.exports = router;
