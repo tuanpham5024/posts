@@ -1,9 +1,23 @@
 const config = require('config');
 const express = require('express');
+const exphbs = require('express-handlebars');
+const bodyParser = require('body-parser');
 const connectDB = require('./config/db');
+
+// routes
+const posts = require('./routes/posts');
+
 
 // start application
 const app = express();
+
+// start Hanlebars middleware
+app.engine('handlebars', exphbs());
+app.set('view engine', 'handlebars')
+
+// start bodyParser middleware
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 
 // start express middleware
 app.use(express.json());
@@ -12,6 +26,14 @@ app.use(express.json());
 connectDB();
 
 const port = config.get('PORT') || 4000;
-console.log(port);
+
+
+// use
+
+app.get('/', (req, res) => res.render('index'));
+app.get('/about', (req, res) => res.render('about'));
+
+app.use('/posts', posts);
+
 
 app.listen(port , ()=> console.log(`Server is starting on port: ${port}`));
